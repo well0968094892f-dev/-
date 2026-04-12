@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>تداول وهمي</title>
+<style>
+body {
+  font-family: Arial;
+  background: #111;
+  color: white;
+  text-align: center;
+}
+.container {
+  margin-top: 50px;
+}
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>📈 منصة تداول وهمية</h1>
+
+  <h2>الرصيد: <span id="balance">10000</span>$</h2>
+  <h2>سعر البيتكوين: <span id="price">50000</span>$</h2>
+
+  <button onclick="buy()">شراء</button>
+  <button onclick="sell()">بيع</button>
+
+  <h3>عدد العملات: <span id="coins">0</span></h3>
+</div>
+
+<script>
+let balance = 10000;
+let price = 50000;
+let coins = 0;
+
+// تغيير السعر عشوائي
+setInterval(() => {
+  price += Math.floor(Math.random() * 2000 - 1000);
+  document.getElementById("price").innerText = price;
+}, 1000);
+
+function buy() {
+  if (balance >= price) {
+    balance -= price;
+    coins += 1;
+  }
+  update();
+}
+
+function sell() {
+  if (coins > 0) {
+    balance += price;
+    coins -= 1;
+  }
+  update();
+}
+
+function update() {
+  document.getElementById("balance").innerText = balance;
+  document.getElementById("coins").innerText = coins;
+}
+</script>
+
+</body>
+</html>
