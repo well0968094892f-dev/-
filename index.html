@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>منصة تداول وهمي</title>
+  <title>منصة تداول</title>
   <style>
     body {
       font-family: Arial;
@@ -10,58 +10,52 @@
       color: white;
       text-align: center;
       margin: 0;
-      padding: 0;
     }
 
     header {
       background: #111a2e;
       padding: 20px;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: bold;
     }
 
-    .container {
-      margin-top: 40px;
-    }
-
-    .card {
+    .box {
       background: #16233d;
       width: 320px;
-      margin: auto;
+      margin: 60px auto;
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.4);
     }
 
-    .price {
-      font-size: 28px;
-      margin: 10px 0;
-      color: #00ff99;
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
     }
 
     button {
-      padding: 10px 15px;
-      margin: 8px;
+      padding: 10px;
+      width: 95%;
+      margin-top: 10px;
       border: none;
       border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .buy {
       background: #00c853;
       color: white;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    .sell {
-      background: #ff3d00;
-      color: white;
+    .hidden { display: none; }
+
+    .price {
+      font-size: 28px;
+      color: #00ff99;
+      margin: 10px 0;
     }
 
-    .balance {
-      margin-top: 15px;
-      font-size: 18px;
-    }
+    .red { background: #ff3d00 !important; }
   </style>
 </head>
 
@@ -69,22 +63,26 @@
 
 <header>📈 منصة تداول وهمي</header>
 
-<div class="container">
+<!-- LOGIN -->
+<div id="loginBox" class="box">
+  <h3>تسجيل الدخول</h3>
+  <input id="user" placeholder="اسم المستخدم">
+  <input id="pass" type="password" placeholder="كلمة المرور">
+  <button onclick="login()">دخول</button>
+</div>
 
-  <div class="card">
+<!-- PLATFORM -->
+<div id="app" class="hidden">
+
+  <div class="box">
     <div>سعر العملة</div>
     <div class="price" id="price">100</div>
 
-    <button class="buy" onclick="buy()">شراء</button>
-    <button class="sell" onclick="sell()">بيع</button>
+    <button onclick="buy()">شراء</button>
+    <button class="red" onclick="sell()">بيع</button>
 
-    <div class="balance">
-      الرصيد: <span id="balance">1000</span> $
-    </div>
-
-    <div class="balance">
-      العملات: <span id="coins">0</span>
-    </div>
+    <p>الرصيد: <span id="balance">1000</span> $</p>
+    <p>العملات: <span id="coins">0</span></p>
   </div>
 
 </div>
@@ -94,10 +92,26 @@ let balance = 1000;
 let coins = 0;
 let price = 100;
 
-// تحديث السعر كل ثانيتين
+// تسجيل دخول وهمي
+function login() {
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  if (u && p) {
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+  } else {
+    alert("دخل اسم وكلمة مرور");
+  }
+}
+
+// حركة السعر
 setInterval(() => {
+  if (document.getElementById("app").classList.contains("hidden")) return;
+
   price += Math.floor(Math.random() * 10 - 5);
   if (price < 10) price = 10;
+
   document.getElementById("price").innerText = price;
 }, 2000);
 
