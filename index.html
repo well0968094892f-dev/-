@@ -1,64 +1,120 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8">
-<title>تداول وهمي</title>
-<style>
-body {
-  font-family: Arial;
-  background: #111;
-  color: white;
-  text-align: center;
-}
-.container {
-  margin-top: 50px;
-}
-button {
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 16px;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>منصة تداول وهمي</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #0b1220;
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #111a2e;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      margin-top: 40px;
+    }
+
+    .card {
+      background: #16233d;
+      width: 320px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+
+    .price {
+      font-size: 28px;
+      margin: 10px 0;
+      color: #00ff99;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 8px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .buy {
+      background: #00c853;
+      color: white;
+    }
+
+    .sell {
+      background: #ff3d00;
+      color: white;
+    }
+
+    .balance {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+  </style>
 </head>
 
 <body>
+
+<header>📈 منصة تداول وهمي</header>
+
 <div class="container">
-  <h1>📈 منصة تداول وهمية</h1>
 
-  <h2>الرصيد: <span id="balance">10000</span>$</h2>
-  <h2>سعر البيتكوين: <span id="price">50000</span>$</h2>
+  <div class="card">
+    <div>سعر العملة</div>
+    <div class="price" id="price">100</div>
 
-  <button onclick="buy()">شراء</button>
-  <button onclick="sell()">بيع</button>
+    <button class="buy" onclick="buy()">شراء</button>
+    <button class="sell" onclick="sell()">بيع</button>
 
-  <h3>عدد العملات: <span id="coins">0</span></h3>
+    <div class="balance">
+      الرصيد: <span id="balance">1000</span> $
+    </div>
+
+    <div class="balance">
+      العملات: <span id="coins">0</span>
+    </div>
+  </div>
+
 </div>
 
 <script>
-let balance = 10000;
-let price = 50000;
+let balance = 1000;
 let coins = 0;
+let price = 100;
 
-// تغيير السعر عشوائي
+// تحديث السعر كل ثانيتين
 setInterval(() => {
-  price += Math.floor(Math.random() * 2000 - 1000);
+  price += Math.floor(Math.random() * 10 - 5);
+  if (price < 10) price = 10;
   document.getElementById("price").innerText = price;
-}, 1000);
+}, 2000);
 
 function buy() {
   if (balance >= price) {
     balance -= price;
-    coins += 1;
+    coins++;
+    update();
   }
-  update();
 }
 
 function sell() {
   if (coins > 0) {
     balance += price;
-    coins -= 1;
+    coins--;
+    update();
   }
-  update();
 }
 
 function update() {
