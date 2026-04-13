@@ -48,92 +48,62 @@
     }
 
     .hidden { display: none; }
-
-    .price {
-      font-size: 28px;
-      color: #00ff99;
-      margin: 10px 0;
-    }
-
-    .red { background: #ff3d00 !important; }
   </style>
 </head>
 
 <body>
 
-<header>📈 منصة تداول وهمي</header>
+<header>📈 منصة تداول</header>
 
 <!-- LOGIN -->
 <div id="loginBox" class="box">
-  <h3>تسجيل الدخول</h3>
+  <h3>تسجيل / دخول</h3>
   <input id="user" placeholder="اسم المستخدم">
   <input id="pass" type="password" placeholder="كلمة المرور">
+
+  <button onclick="signup()">إنشاء حساب</button>
   <button onclick="login()">دخول</button>
 </div>
 
-<!-- PLATFORM -->
-<div id="app" class="hidden">
+<!-- APP -->
+<div id="app" class="box hidden">
+  <h3>مرحباً 👋 <span id="name"></span></h3>
+  <p>أنت الآن داخل المنصة</p>
 
-  <div class="box">
-    <div>سعر العملة</div>
-    <div class="price" id="price">100</div>
-
-    <button onclick="buy()">شراء</button>
-    <button class="red" onclick="sell()">بيع</button>
-
-    <p>الرصيد: <span id="balance">1000</span> $</p>
-    <p>العملات: <span id="coins">0</span></p>
-  </div>
-
+  <button onclick="logout()">تسجيل خروج</button>
 </div>
 
 <script>
-let balance = 1000;
-let coins = 0;
-let price = 100;
+function signup() {
+  let user = document.getElementById("user").value;
+  let pass = document.getElementById("pass").value;
 
-// تسجيل دخول وهمي
+  if (!user || !pass) return alert("اكتب البيانات");
+
+  localStorage.setItem("user", user);
+  localStorage.setItem("pass", pass);
+
+  alert("تم إنشاء الحساب");
+}
+
 function login() {
-  let u = document.getElementById("user").value;
-  let p = document.getElementById("pass").value;
+  let user = document.getElementById("user").value;
+  let pass = document.getElementById("pass").value;
 
-  if (u && p) {
+  let savedUser = localStorage.getItem("user");
+  let savedPass = localStorage.getItem("pass");
+
+  if (user === savedUser && pass === savedPass) {
     document.getElementById("loginBox").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
+    document.getElementById("name").innerText = user;
   } else {
-    alert("دخل اسم وكلمة مرور");
+    alert("خطأ في البيانات");
   }
 }
 
-// حركة السعر
-setInterval(() => {
-  if (document.getElementById("app").classList.contains("hidden")) return;
-
-  price += Math.floor(Math.random() * 10 - 5);
-  if (price < 10) price = 10;
-
-  document.getElementById("price").innerText = price;
-}, 2000);
-
-function buy() {
-  if (balance >= price) {
-    balance -= price;
-    coins++;
-    update();
-  }
-}
-
-function sell() {
-  if (coins > 0) {
-    balance += price;
-    coins--;
-    update();
-  }
-}
-
-function update() {
-  document.getElementById("balance").innerText = balance;
-  document.getElementById("coins").innerText = coins;
+function logout() {
+  location.reload();
 }
 </script>
 
